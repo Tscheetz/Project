@@ -14,23 +14,23 @@ theme = input("Choose your theme: (space, beach, original, mario, pro) ")
 #class of FlappyBird
 class FlappyBird:
     def __init__(self):
-        #size of playing screen 
+        #size of playing screen ss
         self.screen = pygame.display.set_mode((400, 708))
         #size of images
         self.bird = pygame.Rect(65, 50, 50, 50) 
         #if statement depending on the user imput for the theme 
         if theme == "space": 
             #the background in the game from the folder 'assets'
-            self.background = pygame.image.load("assets/background2.png").convert()
+            self.background = pygame.image.load("assets/background3.png").convert()
             #the images of the bird from assets 
             # 1 is normal 
             # 2 is falling 
         # dead is the death image when the bird hit an obstacle 
-            self.birdSprites = [pygame.image.load("assets/mar1.png").convert_alpha(),
-                                pygame.image.load("assets/2.png").convert_alpha(),
-                                pygame.image.load("assets/dead.png")]
+            self.birdSprites = [pygame.image.load("assets/ufo.png").convert_alpha(),
+                                pygame.image.load("assets/ufo2.png").convert_alpha(),
+                                pygame.image.load("assets/ufo3.png")]
             #the obstacles in the game from the folder
-            self.wallUp = pygame.image.load("assets/bottom.png").convert_alpha()
+            self.wallUp = pygame.image.load("assets/lightsaber3.png").convert_alpha()
     ##attempt at rolling background 
     ##did not work, covered whole screen blocking out bird 
             # def events():
@@ -39,7 +39,8 @@ class FlappyBird:
 			#             pygame.quit()
 			#             sys.exit()
             # # define display surface			
-            # W, H = 576, 1024
+            # #W, H = 576, 1024
+            # W, H = 400, 708
             # HW, HH = W / 2, H / 2
             # AREA = W * H
             # os.environ['SDL_VIDEO_WINDOW_POS'] = "50,50"
@@ -47,7 +48,7 @@ class FlappyBird:
             # pygame.init()
             # CLOCK = pygame.time.Clock()
             # DS = pygame.display.set_mode((W, H))
-            # pygame.display.set_caption("code.Pylet - Scrolling Background Image")
+            # #pygame.display.set_caption("code.Pylet - Scrolling Background Image")
             # FPS = 120
             # bkgd = pygame.image.load("assets/background1.png").convert()
             # x = 0
@@ -59,38 +60,39 @@ class FlappyBird:
 	        #     if rel_x < W:
 	        #     	DS.blit(bkgd, (rel_x, 0))
 	        #     x -= 1
-	        #     pygame.draw.line(DS, (255, 0, 0), (rel_x, 0), (rel_x, H), 3)
+	        #     #pygame.draw.line(DS, (255, 0, 0), (rel_x, 0), (rel_x, H), 3)
 	        #     pygame.display.update()
 	        #     CLOCK.tick(FPS)
-            self.wallDown = pygame.image.load("assets/top.png").convert_alpha()
+            self.wallDown = pygame.image.load("assets/lightsaber2.png").convert_alpha()
         if theme == "beach": 
-            self.background = pygame.image.load("assets/background1.png").convert()
-            self.birdSprites = [pygame.image.load("assets/1.png").convert_alpha(),
-                                pygame.image.load("assets/2.png").convert_alpha(),
-                                pygame.image.load("assets/dead.png")]
-            self.wallUp = pygame.image.load("assets/NObottom.png").convert_alpha()
-            self.wallDown = pygame.image.load("assets/NOtop.png").convert_alpha()
+            self.background = pygame.image.load("assets/background4.png").convert()
+            self.birdSprites = [pygame.image.load("assets/beachball.png").convert_alpha(),
+                                pygame.image.load("assets/beachball.png").convert_alpha(),
+                                pygame.image.load("assets/explosion.gif")]
+            self.wallUp = pygame.image.load("assets/tree.png").convert_alpha()
+            self.wallDown = pygame.image.load("assets/tree2.png").convert_alpha()
         if theme == "original":
-            self.background = pygame.image.load("assets/background1.png").convert()
+            self.background = pygame.image.load("assets/background2.png").convert()
             self.birdSprites = [pygame.image.load("assets/1.png").convert_alpha(),
                                 pygame.image.load("assets/2.png").convert_alpha(),
                                 pygame.image.load("assets/dead.png")]
-            self.wallUp = pygame.image.load("assets/NObottom.png").convert_alpha()
-            self.wallDown = pygame.image.load("assets/NOtop.png").convert_alpha()
+            self.wallUp = pygame.image.load("assets/OGbottom.png").convert_alpha()
+            self.wallDown = pygame.image.load("assets/OGtop.png").convert_alpha()
         if theme == "mario": 
             self.background = pygame.image.load("assets/background1.png").convert()
-            self.birdSprites = [pygame.image.load("assets/1.png").convert_alpha(),
-                                pygame.image.load("assets/2.png").convert_alpha(),
-                                pygame.image.load("assets/dead.png")]
-            self.wallUp = pygame.image.load("assets/NObottom.png").convert_alpha()
-            self.wallDown = pygame.image.load("assets/NOtop.png").convert_alpha()
+            self.birdSprites = [pygame.image.load("assets/mar1.png").convert_alpha(),
+                                pygame.image.load("assets/mar1.png").convert_alpha(),
+                                pygame.image.load("assets/marDead.png")]
+            self.wallUp = pygame.image.load("assets/mariobottom.png").convert_alpha()
+            self.wallDown = pygame.image.load("assets/OGtop.png").convert_alpha()
         if theme == "pro": 
             self.background = pygame.image.load("assets/background1.png").convert()
             self.birdSprites = [pygame.image.load("assets/1.png").convert_alpha(),
                                 pygame.image.load("assets/2.png").convert_alpha(),
                                 pygame.image.load("assets/dead.png")]
-            self.wallUp = pygame.image.load("assets/NObottom.png").convert_alpha()
-            self.wallDown = pygame.image.load("assets/NOtop.png").convert_alpha()
+            self.wallUp = pygame.image.load("assets/bottom.png").convert_alpha()
+            self.wallDown = pygame.image.load("assets/top.png").convert_alpha()
+            
         #changes the distance between obstacles  
         self.gap = 140
         self.wallx = 500
@@ -102,11 +104,15 @@ class FlappyBird:
         self.sprite = 0 
         self.counter = 0
         self.offset = random.randint(-110, 110)
-        ##dead = pygame.mixer.Sound('deathsound')
+        ##dead = pygame.mixer.Sound('deathsound.')
         ##dead.play()
     def updateWalls(self):
+        if theme == "pro":
+                self.wallx -= 6
+                self.gap = 110
+                self.gravity = 8
         self.wallx -= 5
-        if self.wallx < -80:
+        if self.wallx < -80:/
             self.wallx = 550
             self.counter += 1
             #wall randomization 
