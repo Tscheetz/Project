@@ -3,36 +3,41 @@
 # code taken from F-Prime  at https://github.com/f-prime/FlappyBird
 # rolling background from here https://youtu.be/US3HSusUBeI
 #importing libraries
+## tristan found the overall code on Github
 import pygame 
 from pygame.locals import *  
 import sys
 import random
 import os
-
+#jack and tristan both worked on trying to create a main menu but were unsuccessful and so progress was taken out of the code 
 #under imput allowing the user to choose the theme of the game 
+#jack make the user imput 
 theme = input("Choose your theme: (space, beach, original, mario, pro) ")
 #class of FlappyBird
 class FlappyBird:
     def __init__(self):
-        #size of playing screen ss
+        #size of playing screen 
         self.screen = pygame.display.set_mode((400, 708))
         #size of images
         self.bird = pygame.Rect(65, 50, 50, 50) 
         #if statement depending on the user imput for the theme 
+        #jack made this theme 
         if theme == "space": 
             #the background in the game from the folder 'assets'
             self.background = pygame.image.load("assets/background3.png").convert()
             #the images of the bird from assets 
-            # 1 is normal 
-            # 2 is falling 
-        # dead is the death image when the bird hit an obstacle 
+            # 1 is stagnant 
+            # 2 is jumping 
+            # dead/3 is the death image when the user hit an obstacle 
             self.birdSprites = [pygame.image.load("assets/ufo.png").convert_alpha(),
                                 pygame.image.load("assets/ufo2.png").convert_alpha(),
                                 pygame.image.load("assets/ufo3.png")]
             #the obstacles in the game from the folder
+            #bottom wall
             self.wallUp = pygame.image.load("assets/lightsaber3.png").convert_alpha()
     ##attempt at rolling background 
     ##did not work, covered whole screen blocking out bird 
+    #jack wrote out code from youtube 
             # def events():
 	        #     for event in pygame.event.get():
 		    #         if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -63,7 +68,9 @@ class FlappyBird:
 	        #     #pygame.draw.line(DS, (255, 0, 0), (rel_x, 0), (rel_x, H), 3)
 	        #     pygame.display.update()
 	        #     CLOCK.tick(FPS)
+            #top wall
             self.wallDown = pygame.image.load("assets/lightsaber2.png").convert_alpha()
+        #jack made this theme 
         if theme == "beach": 
             self.background = pygame.image.load("assets/background4.png").convert()
             self.birdSprites = [pygame.image.load("assets/beachball.png").convert_alpha(),
@@ -71,6 +78,7 @@ class FlappyBird:
                                 pygame.image.load("assets/explosion.gif")]
             self.wallUp = pygame.image.load("assets/tree.png").convert_alpha()
             self.wallDown = pygame.image.load("assets/tree2.png").convert_alpha()
+        #tristan made this theme 
         if theme == "original":
             self.background = pygame.image.load("assets/background2.png").convert()
             self.birdSprites = [pygame.image.load("assets/1.png").convert_alpha(),
@@ -78,6 +86,7 @@ class FlappyBird:
                                 pygame.image.load("assets/dead.png")]
             self.wallUp = pygame.image.load("assets/OGbottom.png").convert_alpha()
             self.wallDown = pygame.image.load("assets/OGtop.png").convert_alpha()
+        #tristan made this theme 
         if theme == "mario": 
             self.background = pygame.image.load("assets/background1.png").convert()
             self.birdSprites = [pygame.image.load("assets/mar1.png").convert_alpha(),
@@ -85,6 +94,7 @@ class FlappyBird:
                                 pygame.image.load("assets/marDead.png")]
             self.wallUp = pygame.image.load("assets/mariobottom.png").convert_alpha()
             self.wallDown = pygame.image.load("assets/OGtop.png").convert_alpha()
+        #tristan made this theme 
         if theme == "pro": 
             self.background = pygame.image.load("assets/background1.png").convert()
             self.birdSprites = [pygame.image.load("assets/1.png").convert_alpha(),
@@ -93,35 +103,56 @@ class FlappyBird:
             self.wallUp = pygame.image.load("assets/bottom.png").convert_alpha()
             self.wallDown = pygame.image.load("assets/top.png").convert_alpha()
             
-        #changes the distance between obstacles  
+        #changes the distance between obstacles 
+        # both jack and tristan edited ironed out the kinks in the code to make it smoother and more like the original game 
+        #wall gape was made smaller
         self.gap = 140
+        #the first wall was put further back so user and get used to game and have time for first walls 
         self.wallx = 500
         self.birdY = 350
         self.jump = 0
         self.jumpSpeed = 10
         self.gravity = 5
+        #user = alive 
         self.dead = False
         self.sprite = 0 
+        #counter begins at 0
         self.counter = 0
         self.offset = random.randint(-110, 110)
+        #jack tried to get sounds to work
+        #the sound file was not a '.wav' and ultimately was unable to be accessed 
         ##dead = pygame.mixer.Sound('deathsound.')
         ##dead.play()
+        ##jump = pygame.mixer.Sound('sound.')
+        ##jump.play()
     def updateWalls(self):
+        #jack and tristan made 'if' statement with 'pro' theme 
+        #jack and tristan tested out the perameters of the pro setting 
+        #jack and tristan adjusted accordingly to what could be handeled in the pro setting 
         if theme == "pro":
+                #walls move faster towards you 
                 self.wallx -= 6
+                #the gap inbetween the walls is smaller making the game more difficult 
                 self.gap = 110
+                # the gravity is increased making the user fall quicker and need to jump more 
                 self.gravity = 8
+        #this is the normal speed for the wall 
         self.wallx -= 5
         if self.wallx < -80:/
             self.wallx = 550
+            #this is the addition of one point every time the user gets through a wall
             self.counter += 1
             #wall randomization 
+            #this is the randomization of the reoccuring walls 
             self.offset = random.randint(-110, 110)
 
     def birdUpdate(self):
         if self.jump:
+            #this is the speed at which the bird jumps 
             self.jumpSpeed -= 1
+            #this is the location of the bird when the user jumps
             self.birdY -= self.jumpSpeed
+            #this is the height of the users jump
             self.jump -= 1
         else:
             #gravity setttings for the bird
@@ -152,12 +183,14 @@ class FlappyBird:
     def run(self):
         clock = pygame.time.Clock()
         pygame.font.init()
+        #this is the font and size of the score 
         font = pygame.font.SysFont("Arial", 60)
         while True:
             clock.tick(60)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+                #key commands for the bird to jump, uses all of the keys 
                 if (event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN) and not self.dead:
                     self.jump = 17
                     self.gravity = 5
@@ -185,4 +218,5 @@ class FlappyBird:
             pygame.display.update()
 
 if __name__ == "__main__":
+    #class of FlappyBird running 
     FlappyBird().run()
